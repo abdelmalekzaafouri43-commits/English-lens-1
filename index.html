@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>English Lens — by Mr. Zaafouri Abdelmalek</title>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
+  <style>
+    :root {
+      --primary: #1a2a3a;
+      --accent: #e67e22;
+      --bg: #f4f5f7;
+      --card-bg: #ffffff;
+      --text: #2c3e50;
+      --muted: #7f8c8d;
+      --border: #dce1e6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    header {
+      background: var(--primary);
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      position: relative;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .author-brand {
+      margin-top: 0.5rem;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    #theme-toggle {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      padding: 0.4rem 0.7rem;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: 0.2s;
+      z-index: 20;
+    }
+
+    #theme-toggle:hover {
+      background: rgba(255,255,255,0.3);
+      transform: scale(1.1);
+    }
+
+    nav {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    nav button {
+      background: transparent;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border-radius: 20px;
+      transition: 0.2s;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    nav button:hover,
+    nav button.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .search-container {
+      max-width: 600px;
+      margin: 2rem auto 1rem;
+      padding: 0 1rem;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding: 0.8rem 1.2rem;
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      font-size: 1rem;
+      outline: none;
+      background: var(--card-bg);
+      color: var(--text);
+      transition: 0.2s;
+    }
+
+    .search-container input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.1);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .post-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      animation: fadeInUp 0.6s ease both;
+    }
+
+    .post-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .post-card-image {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      background-color: #e0e0e0;
+    }
+
+    .post-card-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .post-category {
+      display: inline-block;
+      background: #eef2f5;
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      margin-bottom: 0.75rem;
+      align-self: flex-start;
+    }
+
+    .post-card h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .post-card p {
+      color: var(--muted);
+      flex-grow: 1;
+      margin-bottom: 1rem;
+    }
+
+    .post-card .read-more {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .article-view, .lab-view {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem;
+      max-width: 100%;
+      animation: fadeInUp 0.5s ease both;
+    }
+
+    .article-view h1, .lab-view h1 {
+      font-size: 2rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .article-view .byline, .lab-view .byline {
+      font-weight: bold;
+      color: var(--accent);
+      margin-bottom: 2rem;
+    }
+
+    .article-view h2, .lab-view h2 {
+      font-size: 1.5rem;
+      color: var(--text);
+      margin: 2rem 0 1rem;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 0.5rem;
+    }
+
+    .article-view h3, .lab-view h3 {
+      font-size: 1.2rem;
+      color: var(--text);
+      margin: 1.5rem 0 0.75rem;
+    }
+
+    .article-view p, .article-view li, .lab-view p, .lab-view li {
+      color: var(--text);
+    }
+
+    .article-view blockquote, .lab-view blockquote {
+      border-left: 4px solid var(--accent);
+      padding-left: 1rem;
+      margin: 1rem 0;
+      font-style: italic;
+      color: var(--text);
+      background: var(--bg);
+      padding: 0.75rem 1rem;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .article-view table, .lab-view table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      background: var(--card-bg);
+    }
+
+    .article-view th, .article-view td, .lab-view th, .lab-view td {
+      border: 1px solid var(--border);
+      padding: 0.75rem;
+      text-align: left;
+      color: var(--text);
+    }
+
+    .article-view th, .lab-view th {
+      background: var(--primary);
+      color: white;
+    }
+
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      margin: 1.5rem 0;
+      border-radius: 12px;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .print-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin: 1rem 0;
+    }
+
+    .print-btn:hover {
+      opacity: 0.9;
+    }
+
+    .premium-box {
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      color: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .premium-box h3 {
+      color: white;
+      margin: 0 0 0.5rem;
+    }
+
+    .premium-box p {
+      color: white;
+      opacity: 0.95;
+      margin-bottom: 1rem;
+    }
+
+    .whatsapp-btn {
+      display: inline-block;
+      background: #25d366;
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem 1.8rem;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: 0.2s;
+      border: 2px solid white;
+    }
+
+    .whatsapp-btn:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      position: sticky;
+      top: 80px;
+    }
+
+    .sidebar-widget {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .sidebar-widget h3 {
+      color: var(--text);
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 0.5rem;
+    }
+
+    .sidebar-widget ul {
+      list-style: none;
+    }
+
+    .sidebar-widget ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    .sidebar-widget ul li a {
+      color: var(--text);
+      text-decoration: none;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+
+    .sidebar-widget ul li a:hover {
+      color: var(--accent);
+    }
+
+    .social-links {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+
+    .social-link:hover {
+      background: var(--accent);
+      transform: scale(1.1);
+    }
+
+    .newsletter input {
+      width: 100%;
+      padding: 0.7rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .newsletter button {
+      width: 100%;
+      padding: 0.7rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .newsletter button:hover {
+      opacity: 0.9;
+    }
+
+    .subscribe-message {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--accent);
+      display: none;
+    }
+
+    footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+    }
+
+    footer p {
+      opacity: 0.9;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+      opacity: 0.9;
+    }
+
+    .footer-links a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 1rem;
+      color: var(--accent);
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    #back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      display: none;
+      z-index: 100;
+      transition: 0.2s;
+    }
+
+    #back-to-top:hover {
+      transform: scale(1.1);
+    }
+
+    [data-theme="dark"] {
+      --primary: #0d1b2a;
+      --accent: #f39c12;
+      --bg: #121212;
+      --card-bg: #1e1e1e;
+      --text: #e0e0e0;
+      --muted: #b0b0b0;
+      --border: #444444;
+    }
+
+    [data-theme="dark"] header {
+      background: #0a1520;
+    }
+
+    [data-theme="dark"] nav {
+      background: #1a1a1a;
+      border-bottom: 1px solid #333;
+    }
+
+    [data-theme="dark"] nav button {
+      color: #e0e0e0;
+    }
+
+    [data-theme="dark"] .post-card h2 {
+      color: #e0e0e0;
+    }
+
+    [data-theme="dark"] .article-view h1,
+    [data-theme="dark"] .article-view h2,
+    [data-theme="dark"] .article-view h3,
+    [data-theme="dark"] .lab-view h1,
+    [data-theme="dark"] .lab-view h2,
+    [data-theme="dark"] .lab-view h3 {
+      color: #e0e0e0;
+    }
+
+    [data-theme="dark"] .article-view p,
+    [data-theme="dark"] .article-view li,
+    [data-theme="dark"] .lab-view p,
+    [data-theme="dark"] .lab-view li {
+      color: #e0e0e0;
+    }
+
+    [data-theme="dark"] .sidebar-widget h3 {
+      color: #e0e0e0;
+    }
+
+    [data-theme="dark"] .sidebar-widget ul li a {
+      color: #e0e0e0;
+    }
+
+    [data-theme="dark"] footer {
+      background: #0a1520;
+    }
+
+    [data-theme="dark"] .newsletter input {
+      background: #2a2a2a;
+      color: #e0e0e0;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(25px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position: static;
+      }
+      .posts-grid {
+        grid-template-columns: 1fr;
+      }
+      #theme-toggle {
+        top: 10px;
+        right: 10px;
+      }
+      #back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📚 English Lens</h1>
+    <p>Master the English language, one post at a time</p>
+    <div class="author-brand">By Mr. Zaafouri Abdelmalek, English Teacher</div>
+    <button id="theme-toggle" title="Toggle dark mode">🌙</button>
+  </header>
+
+  <nav id="category-nav">
+    <button class="active" data-category="all">All Posts</button>
+    <button data-category="grammar">Grammar</button>
+    <button data-category="vocabulary">Vocabulary</button>
+    <button data-category="pro-lab">🚀 Pro English Lab</button>
+    <button data-category="ielts">🎓 IELTS Prep</button>
+    <button data-category="business">💼 Business</button>
+    <button data-category="travel">🌍 Travel</button>
+    <button data-category="writing">✍️ Writing</button>
+    <button data-category="quiz">🧠 Quiz</button>
+    <button data-category="more">📌 More</button>
+  </nav>
+
+  <div class="search-container">
+    <input type="text" id="search-input" placeholder="Search articles..." />
+  </div>
+
+  <div class="container">
+    <main id="main-content"></main>
+    <aside class="sidebar" id="sidebar"></aside>
+  </div>
+
+  <button id="back-to-top" title="Back to top">↑</button>
+
+  <footer>
+    <p>&copy; 2025 English Lens. All rights reserved.</p>
+    <p>Learn English with confidence.</p>
+    <div class="footer-links">
+      <a href="https://www.facebook.com/share/1LsqUz6GNe/" target="_blank">Facebook</a>
+      <a href="https://www.linkedin.com/in/zaafouri-abdelmalek-422257301" target="_blank">LinkedIn</a>
+      <a href="https://wa.me/21629345508" target="_blank">WhatsApp</a>
+    </div>
+  </footer>
+
+  <script>
+    const articles = [
+      {
+        id: 1,
+        title: "Present Tenses Unlocked: What BBC, CNN and Real Stars Teach You About English Time",
+        category: "grammar",
+        excerpt: "Master the four present tenses with real quotes from Emma Watson, Billie Eilish, and news from BBC and The Times.",
+        image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=250&fit=crop",
+        content: `<h2>Introduction</h2><p>Do you freeze when you must choose between <em>I work</em> and <em>I’m working</em>? You are not alone. The present tense is not just about “now.” It is a tool for facts, habits, current actions, and unfinished stories.</p><p>In this article, you will see how native speakers use present tenses in real interviews, news headlines, songs, and everyday speech. No boring rules. Just real English in action.</p><h2>1. Present Simple: The Truth Machine</h2><h3>What it does</h3><p>The present simple is your everyday workhorse. You use it for permanent facts, routines, opinions, and news headlines.</p><h3>From the newsroom</h3><blockquote>“President signs new climate bill.” — <strong>BBC News</strong></blockquote><p>Newspapers often use the present simple for past events. This “historical present” makes news feel immediate.</p><blockquote>“The average office worker spends more than six hours a day online.” — <strong>The Times</strong></blockquote><p>General fact, not temporary action.</p><h3>Real voices</h3><p><strong>Emma Watson (UN Speech):</strong> “I don’t want other people to decide who I am.”</p><p><strong>J.K. Rowling (The Times):</strong> “I write because I love it.”</p><p><strong>Tom Hanks (The Guardian):</strong> “I always feel that I’m a student of human behaviour.”</p><p><strong>Signal words:</strong> always, usually, often, sometimes, never, every day, generally.</p><h2>2. Present Continuous: The Action Camera</h2><h3>What it does</h3><p>Captures actions happening now, temporary situations, and current trends.</p><h3>From the newsroom</h3><blockquote>“We are seeing a sharp increase in remote jobs.” — <strong>CNN</strong></blockquote><blockquote>“Young professionals are moving away from traditional nine-to-five jobs.” — <strong>The Guardian</strong></blockquote><h3>Real voices</h3><p><strong>Billie Eilish (Vogue):</strong> “I’m just trying to figure out who I am.”</p><p><strong>Tom Holland (BBC Radio 1):</strong> “Right now, I’m focusing on my family and my mental health.”</p><p><strong>Harry Styles (Rolling Stone):</strong> “I’m learning to be more present in my life.”</p><p><strong>Signal words:</strong> now, right now, at the moment, currently, these days, today.</p><h2>3. Present Perfect: The Bridge Between Past and Present</h2><h3>What it does</h3><p>Connects the past to the present: experiences, recent news, results now.</p><h3>From the newsroom</h3><blockquote>“Scientists have discovered a new deep-sea creature that challenges what researchers thought they knew about ocean life.” — <strong>The New York Times</strong></blockquote><blockquote>“The company has announced a major restructuring plan.” — <strong>The Economist</strong></blockquote><h3>Real voices</h3><p><strong>Michelle Obama (Memoir):</strong> “I have learned that my voice has value.”</p><p><strong>Serena Williams (NYT):</strong> “I’ve always believed that I could be number one.”</p><p><strong>Signal words:</strong> ever, never, just, already, yet, recently, so far, today, this week.</p><h2>4. Present Perfect Continuous: The Long-Running Story</h2><h3>What it does</h3><p>Emphasises duration of actions that started in the past and continue now.</p><h3>From the newsroom</h3><blockquote>“Residents have been complaining about the noise for months.” — <strong>BBC News</strong></blockquote><blockquote>“The company has been struggling since the pandemic.” — <strong>The Economist</strong></blockquote><h3>Real voices</h3><p><strong>Adele (The Guardian):</strong> “I’ve been trying to find myself again.”</p><p><strong>David Attenborough (BBC):</strong> “We have been changing the natural world for thousands of years.”</p><p><strong>Zendaya (Vogue):</strong> “I’ve been working since I was 14, so I’ve been figuring out who I am outside of that.”</p><p><strong>Signal words:</strong> for, since, all day, all week, for ages, recently, lately.</p><h2>🧩 Idioms in Action</h2><table><tr><th>Idiom</th><th>Meaning</th><th>Real context</th></tr><tr><td>Hit the ground running</td><td>Start with energy</td><td>CNN Business</td></tr><tr><td>Break the ice</td><td>Relax people</td><td>The Times</td></tr><tr><td>Be in the same boat</td><td>Share a problem</td><td>BBC News</td></tr><tr><td>Spill the beans</td><td>Reveal a secret</td><td>Vogue</td></tr><tr><td>See eye to eye</td><td>Agree</td><td>CNN</td></tr><tr><td>The ball is in your court</td><td>Your turn to act</td><td>The Guardian</td></tr></table><h2>📌 Takeaway / Mémo</h2><table><tr><th>Tense</th><th>Use</th><th>Real example</th><th>Signal words</th></tr><tr><td>Present Simple</td><td>Facts, habits</td><td>“The average office worker spends…” — The Times</td><td>always, usually</td></tr><tr><td>Present Continuous</td><td>Actions now</td><td>“We are seeing…” — CNN</td><td>now, currently</td></tr><tr><td>Present Perfect</td><td>Past experience, result now</td><td>“Scientists have discovered…” — NYT</td><td>ever, just, yet</td></tr><tr><td>Present Perfect Continuous</td><td>Duration</td><td>“Residents have been complaining…” — BBC</td><td>for, since</td></tr></table><h2>💬 What about you?</h2><p>Which present tense do you find most difficult? Share your answer in the comments below!</p>`
+      },
+      {
+        id: 2,
+        title: "Past Tenses in Real Life: How Stars and News Tell Stories",
+        category: "grammar",
+        excerpt: "Past simple, continuous, perfect, and perfect continuous explained with Tom Hanks, Jennifer Lawrence, and BBC reports.",
+        image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400&h=250&fit=crop",
+        content: `<h2>Introduction</h2><p>Past tenses do more than talk about yesterday. They help you tell stories, describe past situations, and explain what happened before something else.</p><h2>1. Past Simple: The Finished Action</h2><h3>From the newsroom</h3><blockquote>“Protesters marched through the city centre yesterday.” — <strong>CNN</strong></blockquote><blockquote>“The committee published its final report last week.” — <strong>The Times</strong></blockquote><h3>Real voices</h3><p><strong>Tom Hanks (BBC):</strong> “I worked as a waiter before I became an actor.”</p><p><strong>Emma Stone (Vogue):</strong> “I moved to Los Angeles when I was fifteen.”</p><p><strong>Signal words:</strong> yesterday, last week, ago, in 2019, when.</p><h2>2. Past Continuous: The Background Action</h2><h3>From the newsroom</h3><blockquote>“At 10 pm, residents were sleeping when the earthquake struck.” — <strong>BBC News</strong></blockquote><blockquote>“The company was losing money before the new CEO arrived.” — <strong>The Economist</strong></blockquote><h3>Real voices</h3><p><strong>Jennifer Lawrence (Vogue):</strong> “I was waiting for the bus when a stranger recognised me.”</p><p><strong>Signal words:</strong> while, when, at that moment, as.</p><h2>3. Past Perfect: The Earlier Past</h2><h3>From the newsroom</h3><blockquote>“The company had announced layoffs before the CEO resigned.” — <strong>The New York Times</strong></blockquote><blockquote>“Officials said the storm had caused widespread damage.” — <strong>CNN</strong></blockquote><h3>Real voices</h3><p><strong>Taylor Swift (The Times):</strong> “I had already written the song before the relationship ended.”</p><p><strong>Signal words:</strong> already, just, before, after, by the time.</p><h2>4. Past Perfect Continuous: The Long Past Action</h2><h3>From the newsroom</h3><blockquote>“Workers had been negotiating for months before the strike.” — <strong>The Economist</strong></blockquote><blockquote>“Residents had been complaining about the noise for years before the city took action.” — <strong>The Guardian</strong></blockquote><h3>Real voices</h3><p><strong>Christopher Nolan (BBC):</strong> “I had been thinking about this story for ten years before I started filming.”</p><p><strong>Signal words:</strong> for, since, before, by the time.</p><h2>🧩 Idioms in Action</h2><table><tr><th>Idiom</th><th>Meaning</th><th>Example</th></tr><tr><td>Water under the bridge</td><td>Past problem no longer matters</td><td>“The argument is water under the bridge now.”</td></tr><tr><td>Turn back time</td><td>Wish to return to the past</td><td>“He wants to turn back time and change his decision.”</td></tr><tr><td>Live in the past</td><td>Focus too much on past events</td><td>“Don’t live in the past; think about the future.”</td></tr></table><h2>📌 Takeaway / Mémo</h2><table><tr><th>Tense</th><th>Use</th><th>Real example</th><th>Signal words</th></tr><tr><td>Past Simple</td><td>Completed action</td><td>“I worked as a waiter.” — Tom Hanks</td><td>yesterday, ago, last</td></tr><tr><td>Past Continuous</td><td>Action in progress</td><td>“I was waiting for the bus.” — Jennifer Lawrence</td><td>while, when</td></tr><tr><td>Past Perfect</td><td>Earlier past</td><td>“I had already written the song.” — Taylor Swift</td><td>already, before</td></tr><tr><td>Past Perfect Continuous</td><td>Duration before past event</td><td>“I had been thinking…” — Christopher Nolan</td><td>for, since</td></tr></table><h2>💬 What about you?</h2><p>Which past tense do you use most often? Let me know in the comments!</p>`
+      },
+      {
+        id: 3,
+        title: "Future Tenses: From Hollywood Plans to BBC Predictions",
+        category: "grammar",
+        excerpt: "Will, going to, present continuous for future, and future perfect/continuous with real quotes from Greta Thunberg, Zendaya, and Harry Styles.",
+        image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=250&fit=crop",
+        content: `<h2>Introduction</h2><p>Talking about the future is not just about <em>will</em>. Native speakers use different structures to show intention, prediction, and fixed plans.</p><h2>1. Will: Predictions and Promises</h2><h3>From the newsroom</h3><blockquote>“Experts predict that artificial intelligence will change the job market.” — <strong>CNN</strong></blockquote><blockquote>“The government will introduce new measures next month.” — <strong>The Times</strong></blockquote><h3>Real voices</h3><p><strong>Greta Thunberg (BBC speech):</strong> “We will not stop fighting.”</p><p><strong>Signal words:</strong> tomorrow, next year, soon, probably, I think.</p><h2>2. Going to: Plans and Intentions</h2><h3>From the newsroom</h3><blockquote>“The government is going to raise taxes next year.” — <strong>The Times</strong></blockquote><blockquote>“Tech giants are going to invest heavily in AI research.” — <strong>The Economist</strong></blockquote><h3>Real voices</h3><p><strong>Zendaya (Vogue):</strong> “I’m going to take a break after this film.”</p><p><strong>Signal words:</strong> going to, plan to, intend to.</p><h2>3. Present Continuous for Fixed Arrangements</h2><h3>From the newsroom</h3><blockquote>“The president is meeting European leaders tomorrow.” — <strong>BBC News</strong></blockquote><blockquote>“The team is launching the new product next Monday.” — <strong>CNN Business</strong></blockquote><h3>Real voices</h3><p><strong>Harry Styles (BBC Radio 1):</strong> “I’m starting my world tour in June.”</p><p><strong>Signal words:</strong> tomorrow, this weekend, next Monday, at 5 pm.</p><h2>4. Future Continuous and Future Perfect</h2><p><strong>Future continuous</strong> (<em>will be + -ing</em>): action in progress at a future time.</p><blockquote>“By 2030, most cars will be running on electricity.” — <strong>The Economist</strong></blockquote><p><strong>Future perfect</strong> (<em>will have + past participle</em>): action completed before a future time.</p><blockquote>“By the end of the year, the company will have hired 500 new employees.” — <strong>CNN</strong></blockquote><h2>🧩 Idioms in Action</h2><table><tr><th>Idiom</th><th>Meaning</th><th>Example</th></tr><tr><td>Ahead of the curve</td><td>More advanced</td><td>“This startup is ahead of the curve.”</td></tr><tr><td>In the pipeline</td><td>Planned</td><td>“A new album is in the pipeline.”</td></tr><tr><td>Down the road</td><td>In the future</td><td>“Down the road, you will understand.”</td></tr></table><h2>📌 Takeaway / Mémo</h2><table><tr><th>Structure</th><th>Use</th><th>Real example</th><th>Signal words</th></tr><tr><td>Will</td><td>Predictions, promises</td><td>“We will not stop fighting.” — Greta Thunberg</td><td>tomorrow, soon, probably</td></tr><tr><td>Going to</td><td>Plans</td><td>“I’m going to take a break.” — Zendaya</td><td>going to, plan to</td></tr><tr><td>Present continuous</td><td>Fixed arrangements</td><td>“I’m starting my world tour in June.” — Harry Styles</td><td>tomorrow, this weekend</td></tr><tr><td>Future continuous / perfect</td><td>Action in progress / completed before future time</td><td>“Most cars will be running on electricity.” — The Economist</td><td>by 2030, by the end</td></tr></table><h2>💬 What about you?</h2><p>What are you going to do this weekend? Write your answer using future tenses!</p>`
+      },
+      {
+        id: 4,
+        title: "Active vs Passive: What News Headlines and Scientific Reports Teach You",
+        category: "grammar",
+        excerpt: "Active and passive voices in real news from BBC, CNN, and The New York Times, with idioms used by journalists.",
+        image: "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=400&h=250&fit=crop",
+        content: `<h2>Introduction</h2><p>Active voice puts the subject first. Passive voice puts the action or result first. Both are essential, especially in news and academic writing.</p><h2>1. Active Voice: The Doer First</h2><h3>From the newsroom</h3><blockquote>“Scientists discover new coral reef.” — <strong>BBC News</strong></blockquote><p>The subject (scientists) performs the action.</p><h3>Real voices</h3><p><strong>Stephen King:</strong> “I write every day.”</p><h2>2. Passive Voice: The Action First</h2><h3>From the newsroom</h3><blockquote>“A new coral reef was discovered by scientists.” — <strong>CNN</strong></blockquote><blockquote>“The bill was passed by the Senate.” — <strong>The New York Times</strong></blockquote><p>Focus is on the action or result.</p><h2>3. When to Use Passive Voice</h2><p>Use passive voice in news reports, scientific writing, or when the doer is unknown.</p><blockquote>“My phone was stolen.” (Unknown doer)</blockquote><h2>🧩 Idioms in Action</h2><table><tr><th>Idiom</th><th>Meaning</th><th>Example</th></tr><tr><td>Be in the driver’s seat</td><td>Be in control</td><td>“She is in the driver’s seat of this project.”</td></tr><tr><td>Pass the buck</td><td>Blame someone else</td><td>“Don’t pass the buck; take responsibility.”</td></tr><tr><td>Be taken for a ride</td><td>Be tricked</td><td>“He was taken for a ride by that fake deal.”</td></tr></table><h2>📌 Takeaway / Mémo</h2><table><tr><th>Voice</th><th>Use</th><th>Example</th></tr><tr><td>Active</td><td>Subject performs action</td><td>“Scientists discover new coral reef.” — BBC</td></tr><tr><td>Passive</td><td>Action or receiver is focus</td><td>“A new coral reef was discovered.” — CNN</td></tr><tr><td>Passive with agent</td><td>Doer included with by</td><td>“The bill was passed by the Senate.” — NYT</td></tr></table><h2>💬 What about you?</h2><p>Can you write a passive sentence about something that happened recently?</p>`
+      },
+      {
+        id: 5,
+        title: "Direct and Indirect Speech: How Journalists Report What Stars Say",
+        category: "grammar",
+        excerpt: "Learn to report speech with quotes from Angelina Jolie and examples from The Times and CNN.",
+        image: "https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?w=400&h=250&fit=crop",
+        content: `<h2>Introduction</h2><p>When you report what someone said, you can quote them directly or report it indirectly. Both are common in news and interviews.</p><h2>1. Direct Speech: Exact Words</h2><p>Use quotation marks and the speaker’s exact words.</p><blockquote>“I want to be a voice for the voiceless.” — <strong>Angelina Jolie (BBC interview)</strong></blockquote><h2>2. Indirect Speech: Reported Words</h2><p>Indirect speech changes pronouns and verb tenses.</p><blockquote>Angelina Jolie said that she wanted to be a voice for the voiceless. — <strong>CNN report</strong></blockquote><h2>3. Tense Changes</h2><table><tr><th>Direct</th><th>Indirect</th></tr><tr><td>“I work hard.”</td><td>She said she worked hard.</td></tr><tr><td>“I am working.”</td><td>He said he was working.</td></tr><tr><td>“I have finished.”</td><td>She said she had finished.</td></tr><tr><td>“I will call.”</td><td>He said he would call.</td></tr></table><h2>4. Reporting Verbs</h2><p>Use <em>say, tell, explain, admit, promise, warn, claim</em>.</p><blockquote>“The minister warned that prices would rise.” — <strong>The Times</strong></blockquote><h2>🧩 Idioms in Action</h2><table><tr><th>Idiom</th><th>Meaning</th><th>Example</th></tr><tr><td>Put words in someone’s mouth</td><td>Claim someone said something they didn’t</td><td>“Don’t put words in my mouth.”</td></tr><tr><td>Word for word</td><td>Exactly as said</td><td>“She repeated the speech word for word.”</td></tr><tr><td>Read between the lines</td><td>Understand hidden meaning</td><td>“You can read between the lines.”</td></tr></table><h2>📌 Takeaway / Mémo</h2><table><tr><th>Feature</th><th>Direct</th><th>Indirect</th></tr><tr><td>Quotation marks</td><td>Yes</td><td>No</td></tr><tr><td>Pronoun change</td><td>No</td><td>Yes (I → he/she)</td></tr><tr><td>Tense shift</td><td>No</td><td>Often backshift</td></tr><tr><td>Example</td><td>“I want to be a voice.” — Angelina Jolie</td><td>She said she wanted to be a voice.</td></tr></table><h2>💬 What about you?</h2><p>What did someone tell you recently? Report it in indirect speech!</p>`
+      },
+      {
+        id: 6,
+        title: "Simple to Complex: Building Powerful Sentences Like a Native Writer",
+        category: "grammar",
+        excerpt: "Mix simple, compound, and complex sentences with real quotes from Hemingway, Maya Angelou, and Chimamanda Ngozi Adichie.",
+        image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400&h=250&fit=crop",
+        content: `<h2>Introduction</h2><p>Great writing mixes simple, compound, and complex sentences. This rhythm keeps readers interested.</p><h2>1. Simple Sentences</h2><p>One independent clause. Short and clear.</p><blockquote>“The world is a fine place.” — <strong>Ernest Hemingway</strong></blockquote><h2>2. Compound Sentences</h2><p>Two independent clauses joined by <em>and, but, or, so</em>.</p><blockquote>“I’ve learned that people will forget what you said, but they will never forget how you made them feel.” — <strong>Maya Angelou</strong></blockquote><h2>3. Complex Sentences</h2><p>Independent clause + at least one dependent clause.</p><blockquote>“When we reject the single story, we regain a kind of paradise.” — <strong>Chimamanda Ngozi Adichie</strong></blockquote><h2>🧩 Idioms in Action</h2><table><tr><th>Idiom</th><th>Meaning</th><th>Example</th></tr><tr><td>Keep it short and sweet</td><td>Be brief and clear</td><td>“In emails, keep it short and sweet.”</td></tr><tr><td>Beat around the bush</td><td>Avoid saying what you mean</td><td>“Stop beating around the bush.”</td></tr><tr><td>Get to the point</td><td>Speak directly</td><td>“Please get to the point.”</td></tr></table><h2>📌 Takeaway / Mémo</h2><table><tr><th>Sentence Type</th><th>Structure</th><th>Example</th></tr><tr><td>Simple</td><td>One independent clause</td><td>“The world is a fine place.” — Hemingway</td></tr><tr><td>Compound</td><td>Two independent clauses + conjunction</td><td>Maya Angelou quote</td></tr><tr><td>Complex</td><td>Independent + dependent clause</td><td>Chimamanda quote</td></tr></table><h2>💬 What about you?</h2><p>Write one complex sentence about your favourite book or movie!</p>`
+      },
+      {
+        id: 7,
+        title: "W/H Words: The Questions Journalists and Interviewers Ask",
+        category: "grammar",
+        excerpt: "Master who, what, when, where, why, how with real interview questions from BBC and CNN.",
+        image: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=400&h=250&fit=crop",
+        content: `<h2>Introduction</h2><p>W/H words — <em>who, what, when, where, why, how</em> — are the backbone of every interview and news report.</p><h2>1. The Basic W/H Words</h2><ul><li><strong>Who</strong> – person: “Who said that?”</li><li><strong>What</strong> – thing/action: “What happened?”</li><li><strong>When</strong> – time: “When did the meeting start?”</li><li><strong>Where</strong> – place: “Where is the conference?”</li><li><strong>Why</strong> – reason: “Why did she leave?”</li><li><strong>How</strong> – manner/degree: “How did you learn English?”</li></ul><h2>2. W/H Words in Real Interviews</h2><blockquote>“What inspired you to become an actor?” — <strong>BBC interview question</strong></blockquote><blockquote>“How will the new policy affect small businesses?” — <strong>CNN journalist</strong></blockquote><h2>3. Indirect Questions</h2><p>More polite, word order changes.</p><blockquote>Direct: “Where is the station?”<br>Indirect: “Could you tell me where the station is?”</blockquote><h2>4. W/H Words as Connectors</h2><blockquote>“The reason why he resigned is still unclear.” — <strong>BBC News</strong></blockquote><h2>🧩 Idioms in Action</h2><table><tr><th>Idiom</th><th>Meaning</th><th>Example</th></tr><tr><td>The five Ws</td><td>Basic facts</td><td>“A good news story answers the five Ws.”</td></tr><tr><td>Out of the question</td><td>Impossible</td><td>“Working from home is out of the question.”</td></tr><tr><td>Beg the question</td><td>Raise a question</td><td>“His silence begs the question.”</td></tr></table><h2>📌 Takeaway / Mémo</h2><table><tr><th>W/H Word</th><th>Function</th><th>Real example</th></tr><tr><td>Who</td><td>Person</td><td>“Who said that?”</td></tr><tr><td>What</td><td>Thing/action</td><td>“What inspired you?” — BBC</td></tr><tr><td>When</td><td>Time</td><td>“When did it happen?”</td></tr><tr><td>Where</td><td>Place</td><td>“Where is the office?”</td></tr><tr><td>Why</td><td>Reason</td><td>“Why did she leave?”</td></tr><tr><td>How</td><td>Manner/degree</td><td>“How will the policy affect businesses?” — CNN</td></tr></table><h2>💬 What about you?</h2><p>What is your biggest question about English? Ask it using a W/H word!</p>`
+      },
+      {
+        id: 8,
+        title: "Relative Pronouns: Who, Which, That and How to Use Them Like a Pro",
+        category: "grammar",
+        excerpt: "Connect ideas with who, whom, whose, which, that, where, and when — with real examples from The Times and CNN.",
+        image: "https://images.unsplash.com/photo-1516414447565-b14be0adf13e?w=400&h=250&fit=crop",
+        content: `<h2>Introduction</h2><p>Relative pronouns connect ideas and describe people, things, places, and times. They make your English sound more fluent.</p><h2>1. Who, Whom, Whose – People</h2><ul><li><strong>Who</strong> – subject: “The actress who starred in the film is here.”</li><li><strong>Whom</strong> – object (formal): “The director whom I met was very kind.”</li><li><strong>Whose</strong> – possession: “The writer whose book became a bestseller is giving a talk.”</li></ul><blockquote>“The singer who won the award thanked her fans.” — <strong>BBC interview</strong></blockquote><h2>2. Which, That – Things</h2><p><strong>Which</strong> – things, often in non-defining clauses.</p><blockquote>“The report, which was published yesterday, shows growth.” — <strong>The Times</strong></blockquote><p><strong>That</strong> – things or people in defining clauses.</p><blockquote>“The policy that the government introduced is controversial.” — <strong>CNN</strong></blockquote><h2>3. Where, When – Place and Time</h2><p>“This is the studio where we filmed.”<br>“I remember the day when we first met.”</p><h2>4. Defining vs Non-Defining Clauses</h2><p><strong>Defining</strong> – essential information, no commas.</p><p>“The book that I read was excellent.”</p><p><strong>Non-defining</strong> – extra information, with commas.</p><p>“The book, which I bought last week, was excellent.”</p><h2>🧩 Idioms in Action</h2><table><tr><th>Idiom</th><th>Meaning</th><th>Example</th></tr><tr><td>The one who</td><td>The person who does something</td><td>“She is the one who always helps.”</td></tr><tr><td>Which is which</td><td>Tell two similar things apart</td><td>“They look alike; I can’t tell which is which.”</td></tr><tr><td>A matter of which</td><td>A question of choice</td><td>“It’s just a matter of which colour you prefer.”</td></tr></table><h2>📌 Takeaway / Mémo</h2><table><tr><th>Pronoun</th><th>Use</th><th>Example</th></tr><tr><td>Who</td><td>People (subject)</td><td>“The actress who starred…”</td></tr><tr><td>Whom</td><td>People (object)</td><td>“The director whom I met…”</td></tr><tr><td>Whose</td><td>Possession</td><td>“The writer whose book…”</td></tr><tr><td>Which</td><td>Things (non-defining)</td><td>“The report, which was published…” — The Times</td></tr><tr><td>That</td><td>Things/people (defining)</td><td>“The policy that the government introduced…” — CNN</td></tr><tr><td>Where / When</td><td>Place / time</td><td>“This is the studio where we filmed.”</td></tr></table><h2>💬 What about you?</h2><p>Describe a person who inspires you using a relative pronoun!</p>`
+      },
+      {
+        id: 9,
+        title: "Word Formation: How Prefixes and Suffixes Build Your Vocabulary",
+        category: "vocabulary",
+        excerpt: "Learn common prefixes and suffixes with real examples from BBC and The New York Times, plus idioms using word formation.",
+        image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?w=400&h=250&fit=crop",
+        content: `<h2>Introduction</h2><p>One root word can become many words. Prefixes and suffixes change meaning and word class. This skill expands your vocabulary fast.</p><h2>1. Common Prefixes</h2><ul><li><strong>un-</strong> (not) → unhappy, unclear</li><li><strong>re-</strong> (again) → rewrite, rebuild</li><li><strong>dis-</strong> (opposite) → disagree, disappear</li><li><strong>pre-</strong> (before) → preview, predict</li><li><strong>over-</strong> (too much) → overload, overwork</li></ul><blockquote>“The government promised to rebuild the damaged areas.” — <strong>BBC News</strong></blockquote><h2>2. Common Suffixes</h2><ul><li><strong>-tion / -sion</strong> (noun) → education, decision</li><li><strong>-able / -ible</strong> (adjective) → comfortable, visible</li><li><strong>-ful</strong> (full of) → helpful, careful</li><li><strong>-less</strong> (without) → homeless, careless</li><li><strong>-er / -or</strong> (person/thing) → teacher, actor</li></ul><blockquote>“The new policy is more accessible to young people.” — <strong>The New York Times</strong></blockquote><h2>3. Word Families</h2><table><tr><th>Root</th><th>Noun</th><th>Adjective</th><th>Verb</th></tr><tr><td>create</td><td>creation</td><td>creative</td><td>create</td></tr><tr><td>decide</td><td>decision</td><td>decisive</td><td>decide</td></tr><tr><td>care</td><td>care</td><td>careful/careless</td><td>care</td></tr></table><h2>🧩 Idioms in Action</h2><table><tr><th>Idiom</th><th>Meaning</th><th>Example</th></tr><tr><td>Make or break</td><td>The thing that decides success or failure</td><td>“This exam is make or break.”</td></tr><tr><td>In other words</td><td>Say it differently</td><td>“In other words, we need to start again.”</td></tr><tr><td>A word in edgeways</td><td>Get a chance to speak</td><td>“She talks so much I can’t get a word in edgeways.”</td></tr></table><h2>📌 Takeaway / Mémo</h2><table><tr><th>Affix</th><th>Meaning</th><th>Example</th></tr><tr><td>un-</td><td>not</td><td>unhappy</td></tr><tr><td>re-</td><td>again</td><td>rebuild — BBC</td></tr><tr><td>dis-</td><td>opposite</td><td>disagree</td></tr><tr><td>-tion</td><td>noun</td><td>decision</td></tr><tr><td>-able</td><td>adjective</td><td>accessible — NYT</td></tr><tr><td>-ful</td><td>full of</td><td>helpful</td></tr><tr><td>-less</td><td>without</td><td>homeless</td></tr></table><h2>💬 What about you?</h2><p>Can you create a new word using a prefix or suffix? Share it below!</p>`
+      },
+      {
+        id: 10,
+        title: "Adjectives: Describe the World Like a Native Speaker",
+        category: "vocabulary",
+        excerpt: "All types of adjectives with real examples from celebrities and media, plus idioms that use adjectives.",
+        image: "https://images.unsplash.com/photo-1496902526517-c0f5cb8b0d7e?w=400&h=250&fit=crop",
+        content: `<h2>Introduction</h2><p>Adjectives add colour and precision to your English. Learn the different types and see how native speakers use them in interviews and news.</p><h2>1. Descriptive Adjectives</h2><p>Describe qualities: <em>beautiful, intelligent, challenging</em>.</p><blockquote>“She is an incredibly talented actress.” — <strong>Vogue interview</strong></blockquote><h2>2. Quantitative Adjectives</h2><p>Describe quantity: <em>some, many, few, all</em>.</p><blockquote>“Many young people are choosing freelance careers.” — <strong>The Guardian</strong></blockquote><h2>3. Demonstrative Adjectives</h2><p>Point out specific items: <em>this, that, these, those</em>.</p><blockquote>“This policy will affect everyone.” — <strong>BBC News</strong></blockquote><h2>4. Possessive Adjectives</h2><p>Show ownership: <em>my, your, his, her, our, their</em>.</p><blockquote>“My voice has value.” — <strong>Michelle Obama</strong></blockquote><h2>5. Comparative and Superlative Adjectives</h2><p>Compare things: <em>better, worse, the best, the most</em>.</p><blockquote>“This is the most important election of our lifetime.” — <strong>CNN anchor</strong></blockquote><h2>🧩 Idioms in Action</h2><table><tr><th>Idiom</th><th>Meaning</th><th>Example</th></tr><tr><td>As cool as a cucumber</td><td>Very calm</td><td>“She stayed as cool as a cucumber during the interview.”</td></tr><tr><td>A tough nut to crack</td><td>Hard to understand or solve</td><td>“This math problem is a tough nut to crack.”</td></tr><tr><td>Out of this world</td><td>Amazing, excellent</td><td>“The concert was out of this world.”</td></tr></table><h2>📌 Takeaway / Mémo</h2><table><tr><th>Type</th><th>Function</th><th>Example</th></tr><tr><td>Descriptive</td><td>Quality</td><td>talented</td></tr><tr><td>Quantitative</td><td>Quantity</td><td>many</td></tr><tr><td>Demonstrative</td><td>Specific items</td><td>this</td></tr><tr><td>Possessive</td><td>Ownership</td><td>my</td></tr><tr><td>Comparative/Superlative</td><td>Comparison</td><td>better, best</td></tr></table><h2>💬 What about you?</h2><p>Describe your day using three adjectives!</p>`
+      }
+    ];
+
+    const proLabContent = `<h1>🚀 Pro English Lab</h1><div class="byline">Practical English for real careers, sharp communication, and confident speech.</div><h2>🎧 The Audio Dictionary of Corporate Slang</h2><p>Speak like a professional, not a textbook. Here are the most common expressions used in meetings, emails, and office conversations.</p><table><tr><th>Term</th><th>Meaning</th><th>Example</th></tr><tr><td><strong>Touch base</strong></td><td>Meet or talk briefly to check progress</td><td>“Let’s touch base after lunch.”</td></tr><tr><td><strong>Circle back</strong></td><td>Return to a topic later</td><td>“We’ll circle back to this idea next week.”</td></tr><tr><td><strong>Low-hanging fruit</strong></td><td>Easy win or simple task</td><td>“Let’s grab the low-hanging fruit first.”</td></tr><tr><td><strong>Bandwidth</strong></td><td>Capacity or time available</td><td>“I don’t have the bandwidth for another project.”</td></tr><tr><td><strong>Synergy</strong></td><td>Working together effectively</td><td>“This merger will create synergy.”</td></tr><tr><td><strong>Deep dive</strong></td><td>Analyse something in detail</td><td>“We need to deep dive into the sales data.”</td></tr><tr><td><strong>Move the needle</strong></td><td>Make a significant difference</td><td>“This campaign really moved the needle.”</td></tr><tr><td><strong>Run it up the flagpole</strong></td><td>Test an idea with others</td><td>“Let’s run it up the flagpole and see.”</td></tr><tr><td><strong>Game changer</strong></td><td>Something that changes everything</td><td>“The new software is a game changer.”</td></tr><tr><td><strong>Buy-in</strong></td><td>Agreement or support</td><td>“We need buy-in from the team before launch.”</td></tr></table><p>💡 <strong>Tip:</strong> Use these naturally, not in every sentence. Overusing corporate slang can sound unnatural.</p><h2>🎙️ The "Accent Reduction" Audio Bootcamp</h2><p>Clear pronunciation helps you sound confident and professional. Focus on these key areas.</p><h3>A. Difficult Sounds</h3><table><tr><th>Sound</th><th>Common Mistake</th><th>Correct</th></tr><tr><td><strong>th</strong></td><td>“tank you”</td><td><strong>thank you</strong></td></tr><tr><td><strong>v/w</strong></td><td>“wery”</td><td><strong>very</strong></td></tr><tr><td><strong>r</strong></td><td>rolled or absent</td><td><strong>road</strong> (soft r, no roll)</td></tr><tr><td><strong>l</strong></td><td>confused with r</td><td><strong>light</strong> (tongue touches teeth)</td></tr><tr><td><strong>schwa /ə/</strong></td><td>stressed wrongly</td><td><strong>about</strong> → əˈbaʊt</td></tr></table><h3>B. Minimal Pairs Practice</h3><table><tr><th>Short Sound</th><th>Long Sound</th></tr><tr><td>ship</td><td>sheep</td></tr><tr><td>live</td><td>leave</td></tr><tr><td>sit</td><td>seat</td></tr><tr><td>bit</td><td>beat</td></tr><tr><td>pull</td><td>pool</td></tr></table><h3>C. Stress & Intonation</h3><ul><li><strong>Word stress:</strong> reCORD (verb) vs REcord (noun)</li><li><strong>Sentence stress:</strong> I <strong>said</strong> go. (not: I said <strong>go</strong>)</li></ul><h3>D. Linking Sounds</h3><ul><li>“What are you doing?” → often sounds like “Whatcha doin’?” in fast native speech.</li><li>“I don’t know” → “I dunno”</li></ul><p>🎯 <strong>Daily Drill:</strong> Choose one sound per day. Record yourself repeating 5 words, then compare with a native speaker.</p><h2>📝 The Interview Prep Blueprint</h2><p>A step-by-step guide to succeed in a job interview in English.</p><h3>A. Common Questions & Answer Structures</h3><p><strong>1. Tell me about yourself.</strong><br>Structure: Present → Past → Future</p><blockquote>“I’m a recent graduate in business. During university, I completed an internship in marketing. Now I’m looking to develop my skills in a fast-paced agency.”</blockquote><p><strong>2. What are your strengths?</strong><br>Strength + Example + Result</p><blockquote>“I’m very organised. For example, I managed a team project and we finished two days early.”</blockquote><p><strong>3. What are your weaknesses?</strong><br>Weakness + Improvement</p><blockquote>“I used to struggle with public speaking, but I’ve been taking an online course and practising weekly.”</blockquote><p><strong>4. Why do you want to work here?</strong><br>Company knowledge + Your goal</p><blockquote>“I admire your company’s focus on sustainability. I want to contribute to projects that have a real impact.”</blockquote><p><strong>5. Where do you see yourself in five years?</strong><br>Growth + Relevance</p><blockquote>“I hope to grow into a leadership role and help new team members succeed.”</blockquote><h3>B. Power Verbs for Interviews</h3><p>led, launched, improved, created, increased, reduced, managed, trained, designed, achieved</p><h3>C. Questions to Ask the Interviewer</h3><ul><li>“Can you describe a typical day in this role?”</li><li>“What does success look like in the first six months?”</li><li>“What are the team’s biggest challenges right now?”</li></ul><h3>D. Follow-Up Email Template</h3><p><strong>Subject:</strong> Thank you – [Your Name]</p><blockquote>Dear [Interviewer’s Name],<br>Thank you for your time today. I really enjoyed learning more about the role and the team.<br>I’m very excited about the opportunity and I look forward to hearing from you.<br>Best regards,<br>[Your Name]</blockquote><h2>🚀 The 30-Day Fluency Sprint</h2><p>A daily challenge to build speaking confidence and fluency in one month.</p><h3>Week 1 – Listening & Shadowing</h3><table><tr><th>Day</th><th>Task</th></tr><tr><td>1</td><td>Watch a 2-minute BBC clip. Repeat 3 sentences aloud.</td></tr><tr><td>2</td><td>Listen to a song in English. Write down 5 words you hear.</td></tr><tr><td>3</td><td>Shadow a native speaker for 1 minute.</td></tr><tr><td>4</td><td>Watch a movie trailer. Pause and repeat each line.</td></tr><tr><td>5</td><td>Listen to a TED talk. Write the main idea in 2 sentences.</td></tr><tr><td>6</td><td>Record yourself reading a short news article aloud.</td></tr><tr><td>7</td><td>Review your recordings. Pick one thing to improve.</td></tr></table><h3>Week 2 – Speaking & Recording</h3><table><tr><th>Day</th><th>Task</th></tr><tr><td>8</td><td>Introduce yourself for 30 seconds. Record it.</td></tr><tr><td>9</td><td>Describe your daily routine for 1 minute.</td></tr><tr><td>10</td><td>Explain your favourite movie in 3 sentences.</td></tr><tr><td>11</td><td>Talk about a problem and how you solved it.</td></tr><tr><td>12</td><td>Give your opinion on a current news topic.</td></tr><tr><td>13</td><td>Call a friend and speak in English for 5 minutes.</td></tr><tr><td>14</td><td>Listen to your Week 1 recordings. Notice improvement.</td></tr></table><h3>Week 3 – Writing & Reflection</h3><table><tr><th>Day</th><th>Task</th></tr><tr><td>15</td><td>Write 5 sentences about your goals.</td></tr><tr><td>16</td><td>Write a short paragraph about your last holiday.</td></tr><tr><td>17</td><td>Write an email asking for information.</td></tr><tr><td>18</td><td>Write a review of a restaurant or movie.</td></tr><tr><td>19</td><td>Write 3 advantages and 3 disadvantages of remote work.</td></tr><tr><td>20</td><td>Describe a person you admire.</td></tr><tr><td>21</td><td>Write a short story using 5 idioms from the blog.</td></tr></table><h3>Week 4 – Real-Life Practice & Review</h3><table><tr><th>Day</th><th>Task</th></tr><tr><td>22</td><td>Have a conversation with a native or fluent speaker (if possible).</td></tr><tr><td>23</td><td>Watch a video without subtitles. Summarise it.</td></tr><tr><td>24</td><td>Record a 1-minute video of yourself speaking English.</td></tr><tr><td>25</td><td>Practise small talk: weather, weekend, hobbies.</td></tr><tr><td>26</td><td>Practise a job interview answer with a timer.</td></tr><tr><td>27</td><td>Call or message someone in English for 5 minutes.</td></tr><tr><td>28</td><td>Review all your recordings from Day 1.</td></tr><tr><td>29</td><td>Write a reflection: What improved? What still needs work?</td></tr><tr><td>30</td><td>Celebrate! Record a final 1-minute speech about your journey.</td></tr></table><p>🎙️ <strong>Coach’s Tip:</strong> Don’t aim for perfection. Aim for communication. Fluency grows when you speak, make mistakes, and keep going.</p><h2>📚 General Listening Resources</h2><ul><li><a class="resource-link" href="https://www.bbc.co.uk/learningenglish" target="_blank">BBC Learning English</a></li><li><a class="resource-link" href="https://www.bbc.co.uk/learningenglish/english/features/6-minute-english" target="_blank">BBC 6 Minute English</a></li><li><a class="resource-link" href="https://www.ted.com/talks" target="_blank">TED Talks</a></li><li><a class="resource-link" href="https://learningenglish.voanews.com/" target="_blank">VOA Learning English</a></li><li><a class="resource-link" href="https://www.elllo.org/" target="_blank">Elllo</a></li><li><a class="resource-link" href="https://forvo.com/" target="_blank">Forvo</a></li></ul>`;
+
+    const ieltsContent = `<h1>🎓 IELTS Preparation Centre</h1><div class="byline">Master all four skills: Speaking, Reading, Listening, and Writing.</div><h2>🎤 Speaking</h2><h3>Video 1: Band 9 Speaking Sample</h3><div class="video-container"><iframe width="100%" height="315" src="https://www.youtube.com/embed/k4715CJ0Ii8" title="IELTS Speaking Video 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><h3>Video 2: Speaking Part 2 – Band 9 Answer</h3><div class="video-container"><iframe width="100%" height="315" src="https://www.youtube.com/embed/dIihBACUnOg" title="IELTS Speaking Video 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><h3>Tips for Speaking</h3><ul><li>Answer in full sentences.</li><li>Give examples to support your ideas.</li><li>Don't memorise answers — be natural.</li></ul><button class="print-btn" onclick="window.print()">🖨️ Save / Print</button><h2>📖 Reading</h2><h3>Video 1: Reading Strategies</h3><div class="video-container"><iframe width="100%" height="315" src="https://www.youtube.com/embed/N0RxRl9allI" title="IELTS Reading Video 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><h3>Video 2: True/False/Not Given</h3><div class="video-container"><iframe width="100%" height="315" src="https://www.youtube.com/embed/jYk0pvSiNhQ" title="IELTS Reading Video 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><h3>Tips for Reading</h3><ul><li>Skim first, then scan for keywords.</li><li>Don't spend too long on one question.</li><li>Pay attention to synonyms.</li></ul><button class="print-btn" onclick="window.print()">🖨️ Save / Print</button><h2>🎧 Listening</h2><h3>Video 1: Listening Strategy</h3><div class="video-container"><iframe width="100%" height="315" src="https://www.youtube.com/embed/gfTqr_9BMjs" title="IELTS Listening Video 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><h3>Video 2: Listening Practice</h3><div class="video-container"><iframe width="100%" height="315" src="https://www.youtube.com/embed/ULmeHkHU7YQ" title="IELTS Listening Video 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><h3>Tips for Listening</h3><ul><li>Read questions before listening.</li><li>Listen for keywords and synonyms.</li><li>Check spelling carefully.</li></ul><button class="print-btn" onclick="window.print()">🖨️ Save / Print</button><h2>✍️ Writing</h2><h3>Video 1: Writing Task 1</h3><div class="video-container"><iframe width="100%" height="315" src="https://www.youtube.com/embed/h2uF03zKaCA" title="IELTS Writing Video 1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><h3>Video 2: Writing Task 2</h3><div class="video-container"><iframe width="100%" height="315" src="https://www.youtube.com/embed/T3ElsRa5QIA" title="IELTS Writing Video 2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div><h3>Tips for Writing</h3><ul><li>Plan your essay for 5 minutes.</li><li>Use clear paragraphs.</li><li>Leave time to check for mistakes.</li></ul><button class="print-btn" onclick="window.print()">🖨️ Save / Print</button>`;
+
+    const businessContent = `<h1>💼 Business English</h1><div class="byline">Professional English for the workplace.</div><h2>📧 Emails</h2><p>Tips for writing professional emails:</p><ul><li>Use a clear subject line.</li><li>Keep it short and polite.</li><li>End with a call to action.</li></ul><h3>Example:</h3><blockquote>Subject: Meeting Request<br>Dear Mr. Smith,<br>I would like to schedule a meeting to discuss the project. Please let me know your availability.<br>Best regards,<br>[Your Name]</blockquote><h2>🤝 Meetings</h2><p>Useful phrases for meetings:</p><ul><li>"Let's go over the agenda."</li><li>"I'd like to add something."</li><li>"Can we circle back to that later?"</li></ul><h2>📞 Phone Calls</h2><ul><li>"Good morning, this is [Name] from [Company]."</li><li>"Could I speak to Mr. Smith, please?"</li><li>"I'm calling about..."</li></ul><h2>👔 Interviews</h2><ul><li>Use powerful verbs: managed, launched, improved, achieved.</li><li>Give real examples with results.</li><li>Ask questions at the end.</li></ul><div class="premium-box"><h3>⭐ Premium Business English</h3><p>Unlock the full pack.</p><a class="whatsapp-btn" href="https://wa.me/21629345508" target="_blank">💬 Contact me for Premium</a></div>`;
+
+    const travelContent = `<h1>🌍 Travel English</h1><div class="byline">Essential English for your travels.</div><h2>✈️ At the Airport</h2><ul><li>"Where is the check-in desk?"</li><li>"What time does boarding start?"</li><li>"I have one piece of hand luggage."</li></ul><h2>🏨 At the Hotel</h2><ul><li>"I have a reservation under the name..."</li><li>"What time is check-out?"</li><li>"Could I have a wake-up call?"</li></ul><h2>🍽️ At the Restaurant</h2><ul><li>"Could I see the menu, please?"</li><li>"I'd like to order..."</li><li>"Could we have the bill, please?"</li></ul><h2>🧭 Directions</h2><ul><li>"Could you tell me how to get to...?"</li><li>"Go straight ahead, then turn left."</li><li>"Is it far from here?"</li></ul><div class="premium-box"><h3>⭐ Premium Travel English</h3><p>Unlock the full pack.</p><a class="whatsapp-btn" href="https://wa.me/21629345508" target="_blank">💬 Contact me for Premium</a></div>`;
+
+    const writingContent = `<h1>✍️ Writing Skills</h1><div class="byline">Improve your writing for school, work, and IELTS.</div><h2>📧 Email Writing</h2><ul><li>Clear subject line</li><li>Short paragraphs</li><li>Polite closing</li></ul><h2>📝 Essay Writing</h2><ul><li>Introduction with thesis</li><li>Body paragraphs with examples</li><li>Conclusion with summary</li></ul><h2>📊 Report Writing</h2><ul><li>Use headings and bullet points</li><li>Present facts clearly</li><li>Add recommendations</li></ul><h2>📖 Story Writing</h2><ul><li>Strong opening</li><li>Clear sequence of events</li><li>Interesting ending</li></ul><div class="premium-box"><h3>⭐ Premium Writing Course</h3><p>Unlock the full pack.</p><a class="whatsapp-btn" href="https://wa.me/21629345508" target="_blank">💬 Contact me for Premium</a></div>`;
+
+    const quizContent = `<h1>🧠 Advanced Quiz</h1><div class="byline">Test your English with advanced-level questions.</div><h2>Grammar</h2><ol><li>Choose the correct form: "If I ___ rich, I would travel." (a) am (b) were (c) be</li><li>Change to passive: "They built the house."</li><li>Use present perfect: "She ___ (finish) her work."</li></ol><h2>Vocabulary</h2><ol><li>What is the adjective form of "create"?</li><li>Which word means "not clear"? (a) unclear (b) misclear (c) ununclear</li><li>What prefix means "before"?</li></ol><h2>Idioms</h2><ol><li>What does "hit the ground running" mean?</li><li>What does "spill the beans" mean?</li><li>Use "break the ice" in a sentence.</li></ol><div class="premium-box"><h3>⭐ Premium Quiz Pack</h3><p>Unlock the full pack.</p><a class="whatsapp-btn" href="https://wa.me/21629345508" target="_blank">💬 Contact me for Premium</a></div>`;
+
+    const moreContent = `<h1>📌 More</h1><div class="byline">More sections coming soon.</div><p>This space is reserved for future additions. Check back soon!</p>`;
+
+    const mainContent = document.getElementById('main-content');
+    const sidebar = document.getElementById('sidebar');
+    const searchInput = document.getElementById('search-input');
+    const navButtons = document.querySelectorAll('#category-nav button');
+    const backToTopBtn = document.getElementById('back-to-top');
+
+    let currentCategory = 'all';
+    let searchTerm = '';
+    let currentView = 'home';
+
+    function renderSidebar() {
+      sidebar.innerHTML = `<div class="sidebar-widget"><h3>About Me</h3><p><strong>Mr. Zaafouri Abdelmalek</strong> is an experienced English teacher dedicated to helping university students and young professionals master English with confidence.</p><p>Through practical examples from real media, he makes grammar clear, modern, and useful for daily life and career success.</p><div class="social-links"><a class="social-link" href="https://www.facebook.com/share/1LsqUz6GNe/" target="_blank" title="Facebook">f</a><a class="social-link" href="https://www.linkedin.com/in/zaafouri-abdelmalek-422257301" target="_blank" title="LinkedIn">in</a><a class="social-link" href="https://wa.me/21629345508" target="_blank" title="WhatsApp">w</a></div></div><div class="sidebar-widget"><h3>Categories</h3><ul><li><a data-cat="grammar">Grammar</a></li><li><a data-cat="vocabulary">Vocabulary</a></li><li><a data-cat="pro-lab">🚀 Pro English Lab</a></li><li><a data-cat="ielts">🎓 IELTS Prep</a></li><li><a data-cat="business">💼 Business</a></li><li><a data-cat="travel">🌍 Travel</a></li><li><a data-cat="writing">✍️ Writing</a></li><li><a data-cat="quiz">🧠 Quiz</a></li><li><a data-cat="more">📌 More</a></li></ul></div><div class="sidebar-widget newsletter"><h3>Newsletter</h3><p>Get new posts delivered to your inbox. Subscribe and receive a <strong>free IELTS Speaking Cheat Sheet</strong>.</p><input type="email" id="newsletter-email" placeholder="Your email address" /><button id="newsletter-btn">Subscribe</button><p class="subscribe-message" id="subscribe-message">Thank you for subscribing! Check your email for your free download.</p></div>`;
+      sidebar.querySelectorAll('ul li a').forEach(link => {
+        link.addEventListener('click', () => {
+          const cat = link.dataset.cat;
+          if (cat === 'pro-lab') { renderProLab(); return; }
+          if (cat === 'ielts') { renderIelts(); return; }
+          if (cat === 'business') { renderBusiness(); return; }
+          if (cat === 'travel') { renderTravel(); return; }
+          if (cat === 'writing') { renderWriting(); return; }
+          if (cat === 'quiz') { renderQuiz(); return; }
+          if (cat === 'more') { renderMore(); return; }
+          currentCategory = cat;
+          setActiveNav();
+          currentView = 'home';
+          renderHome();
+        });
+      });
+      document.getElementById('newsletter-btn').addEventListener('click', () => {
+        document.getElementById('subscribe-message').style.display = 'block';
+      });
+    }
+
+    function setActiveNav() {
+      navButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.category === currentCategory);
+      });
+    }
+
+    function renderHome() {
+      currentView = 'home';
+      const filtered = articles.filter(article => {
+        const matchesCategory = currentCategory === 'all' || article.category === currentCategory;
+        const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) || article.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+        return matchesCategory && matchesSearch;
+      });
+      if (filtered.length === 0) {
+        mainContent.innerHTML = '<p style="text-align:center; color: var(--muted);">No posts found.</p>';
+        return;
+      }
+      const grid = document.createElement('div');
+      grid.className = 'posts-grid';
+      filtered.forEach(article => {
+        const card = document.createElement('article');
+        card.className = 'post-card';
+        card.innerHTML = `<img class="post-card-image" src="${article.image}" alt="${article.title}" loading="lazy" /><div class="post-card-body"><span class="post-category">${article.category}</span><h2>${article.title}</h2><p>${article.excerpt}</p><span class="read-more">Read more →</span></div>`;
+        card.addEventListener('click', () => renderArticle(article.id));
+        grid.appendChild(card);
+      });
+      mainContent.innerHTML = '';
+      mainContent.appendChild(grid);
+    }
+
+    function renderArticle(id) {
+      currentView = 'article';
+      const article = articles.find(a => a.id === id);
+      if (!article) return;
+      mainContent.innerHTML = `<div class="article-view"><span class="back-link" id="back-to-home">← Back to all posts</span><h1>${article.title}</h1><div class="byline">By Mr. Zaafouri Abdelmalek, English Teacher</div>${article.content}<div style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border);"><p style="text-align:center; color: var(--muted);">👨‍🏫 <strong>Mr. Zaafouri Abdelmalek</strong> — English Teacher</p></div></div>`;
+      document.getElementById('back-to-home').addEventListener('click', renderHome);
+      window.scrollTo(0, 0);
+    }
+
+    function renderProLab() {
+      currentView = 'pro-lab';
+      mainContent.innerHTML = `<div class="lab-view"><span class="back-link" id="back-to-home">← Back to all posts</span>${proLabContent}</div>`;
+      document.getElementById('back-to-home').addEventListener('click', renderHome);
+      window.scrollTo(0, 0);
+    }
+
+    function renderIelts() {
+      currentView = 'ielts';
+      mainContent.innerHTML = `<div class="lab-view"><span class="back-link" id="back-to-home">← Back to all posts</span>${ieltsContent}</div>`;
+      document.getElementById('back-to-home').addEventListener('click', renderHome);
+      window.scrollTo(0, 0);
+    }
+
+    function renderBusiness() {
+      currentView = 'business';
+      mainContent.innerHTML = `<div class="lab-view"><span class="back-link" id="back-to-home">← Back to all posts</span>${businessContent}</div>`;
+      document.getElementById('back-to-home').addEventListener('click', renderHome);
+      window.scrollTo(0, 0);
+    }
+
+    function renderTravel() {
+      currentView = 'travel';
+      mainContent.innerHTML = `<div class="lab-view"><span class="back-link" id="back-to-home">← Back to all posts</span>${travelContent}</div>`;
+      document.getElementById('back-to-home').addEventListener('click', renderHome);
+      window.scrollTo(0, 0);
+    }
+
+    function renderWriting() {
+      currentView = 'writing';
+      mainContent.innerHTML = `<div class="lab-view"><span class="back-link" id="back-to-home">← Back to all posts</span>${writingContent}</div>`;
+      document.getElementById('back-to-home').addEventListener('click', renderHome);
+      window.scrollTo(0, 0);
+    }
+
+    function renderQuiz() {
+      currentView = 'quiz';
+      mainContent.innerHTML = `<div class="lab-view"><span class="back-link" id="back-to-home">← Back to all posts</span>${quizContent}</div>`;
+      document.getElementById('back-to-home').addEventListener('click', renderHome);
+      window.scrollTo(0, 0);
+    }
+
+    function renderMore() {
+      currentView = 'more';
+      mainContent.innerHTML = `<div class="lab-view"><span class="back-link" id="back-to-home">← Back to all posts</span>${moreContent}</div>`;
+      document.getElementById('back-to-home').addEventListener('click', renderHome);
+      window.scrollTo(0, 0);
+    }
+
+    const themeToggle = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem('blog-theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    }
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('blog-theme', newTheme);
+      themeToggle.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    });
+
+    navButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const cat = btn.dataset.category;
+        if (cat === 'pro-lab') { renderProLab(); return; }
+        if (cat === 'ielts') { renderIelts(); return; }
+        if (cat === 'business') { renderBusiness(); return; }
+        if (cat === 'travel') { renderTravel(); return; }
+        if (cat === 'writing') { renderWriting(); return; }
+        if (cat === 'quiz') { renderQuiz(); return; }
+        if (cat === 'more') { renderMore(); return; }
+        currentCategory = cat;
+        setActiveNav();
+        currentView = 'home';
+        renderHome();
+      });
+    });
+
+    searchInput.addEventListener('input', (e) => {
+      searchTerm = e.target.value;
+      renderHome();
+    });
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.style.display = 'block';
+      } else {
+        backToTopBtn.style.display = 'none';
+      }
+    });
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    renderSidebar();
+    renderHome();
+  </script>
+</body>
+</html>
